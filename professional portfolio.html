@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nada Fathy — Cross-Platform Mobile App Developer</title>
+<meta name="description" content="Nada Fathy — Computer Science student at Ain Shams University, building cross-platform mobile apps with Flutter & Dart.">
+<meta name="theme-color" content="#FAF8F5">
+<meta property="og:title" content="Nada Fathy — Flutter Developer">
+<meta property="og:description" content="Cross-platform mobile apps, built with Flutter. Clean architecture, local storage, API & AI integration.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF8F5; --card:#FFFFFF; --sand:#F2E3D5;
+  --ink:#111111; --ink-soft:#3d3d3d; --muted:#666666;
+  --line:#EADFD3;
+  --terra:#E89271; --terra-deep:#c96f4a; --rose:#E4A8A8; --accent-soft:#F9E9DF;
+  --header-bg:rgba(255,255,255,.7);
+  --on-ink:#FFFFFF;
+  --radius:14px;
+  --gutter:clamp(20px,5vw,56px);
+  --display:'Syne',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --paper:#17181A; --card:#1F2023; --sand:#26282C;
+  --ink:#F3F1EA; --ink-soft:#d6d3ca; --muted:#a09d95;
+  --line:#2E3034;
+  --accent-soft:#2c2420; --rose:#8c6b6b; --terra-deep:#EE9E80;
+  --header-bg:rgba(23,24,26,.7);
+  --on-ink:#17181A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;transition:background .2s,color .2s}
+::selection{background:var(--terra);color:#FAF8F5}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter);width:100%}
+h1,h2,h3,.display{font-family:var(--display);letter-spacing:-.02em}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--on-ink);padding:8px 14px;border-radius:99px;z-index:100}
+.skip:focus{left:12px}
+:focus-visible{outline:2px solid var(--terra);outline-offset:3px}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-size:.9rem}
+nav{display:flex;align-items:center;gap:4px}
+nav ul{display:flex;gap:2px;list-style:none;align-items:center}
+nav a{display:block;padding:8px 14px;border-radius:99px;font-size:.88rem;font-weight:500;color:var(--ink-soft);text-decoration:none;transition:background .15s,color .15s}
+nav a:hover{background:var(--sand);color:var(--ink)}
+nav a[aria-current="page"]{background:var(--sand);color:var(--ink)}
+nav a.hire{background:var(--ink);color:var(--on-ink);margin-left:6px}
+nav a.hire:hover{background:var(--terra-deep);color:#fff}
+.tools{display:flex;align-items:center;gap:8px}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:1rem;display:grid;place-items:center;transition:background .15s}
+.icon-btn:hover{background:var(--sand)}
+.burger{display:none}
+
+/* ---------- Views ---------- */
+main{flex:1}
+.spa .view{display:none}
+.spa .view.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.view{padding:clamp(40px,7vw,80px) 0 clamp(56px,8vw,96px)}
+.kicker{font-family:var(--body);font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:12px}
+h1{font-weight:800;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.04}
+h2.title{font-weight:700;font-size:clamp(1.9rem,4vw,3rem);line-height:1.1;margin-bottom:14px}
+.lead{color:var(--muted);max-width:58ch;font-size:1.05rem}
+.sec{margin-top:clamp(48px,7vw,80px)}
+.sec>h3{font-size:1.5rem;font-weight:700;margin-bottom:22px}
+.band{background:var(--sand)}
+
+/* ---------- Buttons ---------- */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:99px;font-weight:600;font-size:.92rem;font-family:var(--body);text-decoration:none;border:1.5px solid var(--ink);background:var(--ink);color:var(--on-ink);cursor:pointer;transition:background .15s,color .15s,transform .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px);background:#000;color:#fff}
+[data-theme="dark"] .btn:hover{background:#fff;color:#111}
+.btn .arr{transition:transform .15s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--on-ink)}
+.btn.accent{background:var(--terra);border-color:var(--terra);color:#111}
+.btn.accent:hover{background:var(--terra-deep);border-color:var(--terra-deep);color:#fff}
+
+/* ---------- Home hero ---------- */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;position:relative}
+.blob{position:absolute;width:340px;height:340px;border-radius:50%;background:var(--terra);opacity:.22;filter:blur(70px);right:2%;top:-40px;z-index:-1;pointer-events:none}
+.status{display:inline-flex;align-items:center;gap:9px;font-size:.8rem;font-weight:500;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:7px 15px;border-radius:99px;margin-bottom:26px}
+.status i{width:8px;height:8px;border-radius:50%;background:#4caf7d}
+.hero h1 em{font-style:normal;color:var(--terra-deep)}
+.hero .lead{margin-top:24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chip{font-size:.78rem;font-weight:500;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:5px 13px;border-radius:99px}
+.arch{position:relative;aspect-ratio:3/4;max-width:380px;width:100%;margin-left:auto;border-radius:999px 999px 28px 28px;background:linear-gradient(170deg,var(--sand),var(--rose));display:flex;flex-direction:column;justify-content:flex-end;padding:30px;overflow:hidden}
+.arch .big{font-family:var(--display);font-weight:800;font-size:clamp(5rem,11vw,8rem);line-height:.9;color:var(--ink);opacity:.9;position:absolute;top:34%;left:50%;transform:translate(-50%,-50%)}
+.arch .tag{position:relative;background:var(--card);border-radius:12px;padding:12px 16px;font-size:.84rem;margin-top:8px;border:1px solid var(--line)}
+.arch .tag b{font-family:var(--display);display:block;font-size:.95rem}
+.arch .tag span{color:var(--muted)}
+
+/* ---------- Bento ---------- */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.bento>*{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:transform .18s,box-shadow .18s}
+.bento>*:nth-child(odd){background:linear-gradient(160deg,var(--card),var(--sand))}
+.bento>a{text-decoration:none;display:block}
+.bento>*:hover{transform:translateY(-4px);box-shadow:0 14px 30px -16px rgba(17,17,17,.25)}
+.bento .wide{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between;min-height:260px}
+.bento .num{font-family:var(--display);font-weight:800;font-size:2rem;line-height:1;margin-bottom:10px;color:var(--terra-deep)}
+.bento h3{font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.bento .wide h3{font-size:1.6rem}
+.bento p{color:var(--muted);font-size:.9rem}
+
+/* ---------- Cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px -16px rgba(17,17,17,.25)}
+.card .ico{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:1.2rem;margin-bottom:18px}
+.card h3{font-size:1.12rem;font-weight:700;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.93rem}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.tags span{font-size:.74rem;font-weight:500;color:var(--terra-deep);background:var(--accent-soft);padding:4px 11px;border-radius:99px}
+
+/* ---------- Project ---------- */
+.project{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,44px);margin-top:36px}
+.role{display:inline-block;font-size:.76rem;font-weight:600;color:var(--terra-deep);background:var(--accent-soft);padding:5px 14px;border-radius:99px;margin-bottom:16px}
+.project h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:14px}
+.project p{color:var(--muted);max-width:66ch}
+.project p+p{margin-top:10px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0 6px;counter-reset:s}
+.step{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 16px}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--display);font-weight:700;font-size:.8rem;color:var(--terra-deep);display:block;margin-bottom:8px}
+.step b{display:block;font-family:var(--display);font-size:1rem;margin-bottom:3px}
+.step span{color:var(--muted);font-size:.82rem;line-height:1.45;display:block}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--terra-deep);background:var(--card);width:22px;text-align:center;z-index:1;font-size:.9rem}
+
+/* ---------- About ---------- */
+.about-top{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+.usp{font-family:var(--display);font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:600;line-height:1.3;border-left:3px solid var(--terra);padding-left:20px;margin-bottom:22px;letter-spacing:-.01em}
+.facts{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.facts div{padding:14px 0;border-top:1px solid var(--line)}
+.facts div:first-child{border:none;padding-top:0}
+.facts div:last-child{padding-bottom:0}
+.facts small{display:block;font-size:.7rem;font-weight:600;letter-spacing:.12em;color:var(--terra-deep);margin-bottom:3px}
+.facts span{font-size:.93rem}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1.5px;background:var(--line)}
+.entry{position:relative;padding-bottom:28px}
+.entry:last-child{padding-bottom:0}
+.entry::before{content:"";position:absolute;left:-32px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--terra);box-shadow:0 0 0 4px var(--accent-soft)}
+.entry .year{font-family:var(--display);font-weight:700;font-size:.85rem;color:var(--terra-deep);display:block;margin-bottom:3px}
+.entry p{max-width:62ch;color:var(--ink-soft)}
+
+/* ---------- Recognition ---------- */
+.award{display:flex;align-items:center;gap:22px;background:var(--accent-soft);border:1px solid var(--line);border-radius:var(--radius);padding:26px 30px;margin-bottom:16px;transition:transform .18s}
+.award:hover{transform:translateY(-3px)}
+.award .badge{flex-shrink:0;width:58px;height:58px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:1.7rem}
+.award h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.award p{color:var(--muted);font-size:.93rem}
+
+/* ---------- Contact / Hire ---------- */
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.contact-card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:transform .18s,box-shadow .18s}
+.contact-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px -16px rgba(17,17,17,.25)}
+.contact-card small{font-size:.7rem;font-weight:600;letter-spacing:.12em;color:var(--terra-deep)}
+.contact-card b{display:block;margin-top:8px;font-family:var(--display);font-size:1.1rem;word-break:break-all}
+.form{display:grid;gap:18px;margin-top:34px;max-width:660px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,36px)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+label{display:block;font-size:.84rem;font-weight:600;margin-bottom:7px}
+input,select,textarea{width:100%;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 15px;font:inherit;font-size:.93rem;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--terra);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{min-height:140px;resize:vertical}
+.note{color:var(--muted);font-size:.82rem}
+.note.ok{color:var(--terra-deep)}
+
+/* ---------- Footer ---------- */
+footer{background:var(--sand);border-top:1px solid var(--line);padding:30px 0 38px;text-align:center;color:var(--muted);font-size:.84rem}
+
+/* ---------- Responsive ---------- */
+@media (max-width:920px){
+  .burger{display:grid}
+  nav{position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);display:none;padding:12px var(--gutter) 20px}
+  nav.open{display:block}
+  nav ul{flex-direction:column;align-items:stretch;gap:4px}
+  nav a{border-radius:12px}
+  nav a.hire{margin:8px 0 0;text-align:center;border-radius:99px}
+  .hero{grid-template-columns:1fr}
+  .arch{margin:10px auto 0;max-width:320px}
+  .blob{right:-80px}
+}
+@media (max-width:760px){
+  .grid,.grid-2,.contact-grid,.about-top,.row{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr 1fr}
+  .bento .wide{grid-column:span 2;grid-row:auto;min-height:0}
+  .flow{grid-template-columns:1fr 1fr}
+  .step:not(:last-child)::after{display:none}
+}
+@media (max-width:460px){.bento{grid-template-columns:1fr}.bento .wide{grid-column:auto}.flow{grid-template-columns:1fr}.award{flex-direction:column;align-items:flex-start}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#/"><span class="mark">N.</span><span>Nada Fathy</span></a>
+    <nav id="nav" aria-label="Main">
+      <ul>
+        <li><a href="#/" data-route="">Home</a></li>
+        <li><a href="#/projects" data-route="projects">Portfolio</a></li>
+        <li><a href="#/about" data-route="about">About</a></li>
+        <li><a href="#/services" data-route="services">Offers</a></li>
+        <li><a href="#/recognition" data-route="recognition">Recognition</a></li>
+        <li><a href="#/contact" data-route="contact">Contact</a></li>
+        <li><a class="hire" href="#/hire" data-route="hire">Get in touch</a></li>
+      </ul>
+    </nav>
+    <div class="tools">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark theme">☾</button>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ================= HOME ================= -->
+<section class="view active" id="view-home" data-title="Nada Fathy — Cross-Platform Mobile App Developer">
+  <div class="wrap">
+    <div class="hero">
+      <div class="blob"></div>
+      <div>
+        <div class="status"><i></i>Mobile App Developer · Available for new projects</div>
+        <h1>Cross-platform mobile apps, <em>built with Flutter.</em></h1>
+        <p class="lead">I'm Nada — I help teams and clients turn ideas into working mobile products through clean, well-architected Flutter development, from local storage and state management to AI-integrated pipelines.</p>
+        <div class="chips"><span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">Cubit</span><span class="chip">REST APIs</span><span class="chip">SQLite · Hive</span><span class="chip">FastAPI integration</span></div>
+        <div class="btns">
+          <a class="btn" href="#/projects">View my work <span class="arr">→</span></a>
+          <a class="btn ghost" href="#/hire">Work with me</a>
+          <a class="btn ghost" href="https://github.com/nadafathy" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="arch" aria-hidden="true">
+        <div class="big">N.</div>
+        <div class="tag"><b>Flutter Team Leader</b><span>Kinetix · AI-to-CNC</span></div>
+        <div class="tag"><b>Ain Shams University</b><span>B.Sc. Computer Science</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap sec">
+    <div class="kicker">Highlights</div>
+    <div class="bento">
+      <a class="wide" href="#/projects">
+        <div>
+          <span class="chip">Flutter · FastAPI · AI · CNC</span>
+          <h3 style="margin-top:16px">Kinetix — AI-to-CNC design pipeline</h3>
+          <p>A mobile app that bridges design and fabrication: draw, upload or capture an image, let AI process it, and watch a CNC machine bring it to life.</p>
+        </div>
+        <p style="margin-top:20px;color:var(--ink);font-weight:600">See the project →</p>
+      </a>
+      <div><div class="num">1st</div><h3>Al-Azhar Exhibition</h3><p>Team project, official certificate of appreciation.</p></div>
+      <div><div class="num">DEPI</div><h3>Digital Egypt Pioneers</h3><p>Cross-Platform Mobile App Developer Trainee.</p></div>
+      <div><div class="num">Lead</div><h3>Flutter Team Leader</h3><p>Led the mobile team on Kinetix.</p></div>
+      <div><div class="num">4</div><h3>Services offered</h3><p>Apps, API &amp; AI integration, local storage, workshops.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="view" id="view-projects" data-title="Portfolio — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">Portfolio</div>
+    <h2 class="title">Selected work</h2>
+    <p class="lead">Projects where I took ownership of the mobile side — architecture, integration and delivery.</p>
+
+    <article class="project">
+      <span class="role">Flutter Team Leader</span>
+      <h3>Kinetix — AI-to-CNC design pipeline</h3>
+      <p>Led the development of Kinetix, a CNC-integrated mobile application that bridges design and fabrication through AI. Users draw freehand, upload an image, or capture one with the camera, and send it to an AI model over HTTP — the AI processes the image and sends it on to a CNC machine, which brings the design to life.</p>
+      <p>Also built a prompt-based image generation feature: the AI generates an image from text, and the CNC draws it automatically. The backend runs on FastAPI, keeping the full pipeline seamless and efficient.</p>
+
+      <div class="flow" aria-label="Kinetix pipeline">
+        <div class="step"><b>Input</b><span>Draw, upload, camera, or a text prompt</span></div>
+        <div class="step"><b>HTTP</b><span>Flutter sends it to the FastAPI backend</span></div>
+        <div class="step"><b>AI</b><span>Model processes or generates the image</span></div>
+        <div class="step"><b>CNC</b><span>Machine draws the final design</span></div>
+      </div>
+
+      <div class="tags"><span>Flutter</span><span>FastAPI</span><span>HTTP</span><span>AI Integration</span><span>CNC</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="view" id="view-about" data-title="About — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">About</div>
+    <h2 class="title">Who I am</h2>
+
+    <div class="about-top">
+      <div>
+        <p class="usp">I help teams turn ideas into working mobile products through clean, well-architected Flutter development.</p>
+        <p class="lead">Computer Science student at Ain Shams University with a strong academic standing and a focus on cross-platform mobile development using Flutter &amp; Dart. Passionate about software engineering, object-oriented programming, and data structures &amp; algorithms — with hands-on experience leading a mobile team, building AI-integrated apps, and competitive programming.</p>
+      </div>
+      <aside class="facts">
+        <div><small>EDUCATION</small><span>B.Sc. Computer Science — Ain Shams University (in progress)</span></div>
+        <div><small>FOCUS</small><span>Flutter &amp; Dart, cross-platform mobile</span></div>
+        <div><small>FUNDAMENTALS</small><span>OOP · Data Structures &amp; Algorithms · C++</span></div>
+      </aside>
+    </div>
+
+    <div class="sec">
+      <h3>Skills</h3>
+      <div class="grid">
+        <div class="card"><div class="ico">📱</div><h3>Cross-platform mobile</h3><p>Robust apps with Flutter and Dart — state management, API integration, and local storage.</p><div class="tags"><span>Flutter</span><span>Dart</span><span>REST APIs</span></div></div>
+        <div class="card"><div class="ico">🧠</div><h3>Engineering fundamentals</h3><p>A solid foundation in OOP, data structures &amp; algorithms, and problem-solving across programming contexts.</p><div class="tags"><span>OOP</span><span>DSA</span><span>C++</span></div></div>
+        <div class="card"><div class="ico">🎤</div><h3>Training &amp; instruction</h3><p>Intensive software engineering programs, plus delivering technical workshops on mobile development.</p><div class="tags"><span>Workshops</span><span>Mentorship</span></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>Experience</h3>
+      <div class="timeline">
+        <div class="entry"><span class="year">2026</span><p>Won 1st place at Al-Azhar Exhibition as part of a team project, receiving an official certificate of appreciation.</p></div>
+        <div class="entry"><span class="year">2026</span><p>Selected for the government-sponsored Digital Egypt Pioneers Initiative (DEPI) as a Cross-Platform Mobile App Developer Trainee.</p></div>
+        <div class="entry"><span class="year">2026</span><p>Delivered a technical workshop on Local Storage in Flutter and led introductory programming sessions as a RoboTech Technical Instructor.</p></div>
+        <div class="entry"><span class="year">2025</span><p>Completed comprehensive technical training in Flutter mobile development and state management as a RoboTech Academic Member.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="view" id="view-services" data-title="Offers — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">Offers</div>
+    <h2 class="title">How I can help</h2>
+    <p class="lead">Four ways we can work together.</p>
+    <div class="grid-2" style="margin-top:34px">
+      <div class="card"><div class="ico">📲</div><h3>Flutter app development</h3><p>End-to-end mobile apps built with Dart, from UI to state management with Cubit and clean, modular architecture.</p></div>
+      <div class="card"><div class="ico">🔌</div><h3>API &amp; AI integration</h3><p>Connecting Flutter apps to backends and AI models over HTTP, including FastAPI-powered pipelines.</p></div>
+      <div class="card"><div class="ico">💾</div><h3>Local storage solutions</h3><p>Shared Preferences, Hive, SQLite, and Secure Storage — choosing and implementing the right fit per app.</p></div>
+      <div class="card"><div class="ico">🎓</div><h3>Technical workshops</h3><p>Hands-on sessions and mentorship on Flutter fundamentals for teams and trainees.</p></div>
+    </div>
+    <div class="btns"><a class="btn accent" href="#/hire">Start a project <span class="arr">→</span></a></div>
+  </div>
+</section>
+
+<!-- ================= RECOGNITION ================= -->
+<section class="view" id="view-recognition" data-title="Recognition — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">Recognition</div>
+    <h2 class="title">Achievements</h2>
+    <p class="lead" style="margin-bottom:34px">Moments that mark the journey so far.</p>
+    <div class="award"><div class="badge">🏆</div><div><h3>1st Place — Al-Azhar Exhibition</h3><p>Awarded an official certificate of appreciation as part of a team project.</p></div></div>
+    <div class="award"><div class="badge">🏅</div><div><h3>ECPC Qualification Participation</h3><p>Participated in the ECPC qualification round.</p></div></div>
+    <div class="award"><div class="badge">🚀</div><div><h3>Digital Egypt Pioneers Initiative (DEPI)</h3><p>Selected for the government-sponsored program as a Cross-Platform Mobile App Developer Trainee.</p></div></div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="view" id="view-contact" data-title="Contact — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">Contact</div>
+    <h2 class="title">Let's talk</h2>
+    <p class="lead">Have something in mind, or just want to say hello? Reach out on any of these.</p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:nada94086@gmail.com"><small>EMAIL</small><b>nada94086@gmail.com</b></a>
+      <a class="contact-card" href="https://linkedin.com/in/nada-fathy1" target="_blank" rel="noopener"><small>LINKEDIN ↗</small><b>nada-fathy1</b></a>
+      <a class="contact-card" href="https://github.com/nadafathy" target="_blank" rel="noopener"><small>GITHUB ↗</small><b>nadafathy</b></a>
+    </div>
+    <div class="btns"><a class="btn" href="#/hire">Send a project brief <span class="arr">→</span></a></div>
+  </div>
+</section>
+
+<!-- ================= HIRE ================= -->
+<section class="view" id="view-hire" data-title="Get in touch — Nada Fathy">
+  <div class="wrap">
+    <div class="kicker">Get in touch</div>
+    <h2 class="title">Work with me</h2>
+    <p class="lead">Tell me a bit about your project. This opens your email app with the message ready to send.</p>
+    <form class="form" id="hireForm">
+      <div class="row">
+        <div><label for="f-name">Your name</label><input id="f-name" name="name" required autocomplete="name"></div>
+        <div><label for="f-email">Your email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+      </div>
+      <div>
+        <label for="f-type">Project type</label>
+        <select id="f-type" name="type">
+          <option>Flutter app development</option>
+          <option>API &amp; AI integration</option>
+          <option>Local storage solution</option>
+          <option>Technical workshop</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div><label for="f-msg">Message</label><textarea id="f-msg" name="msg" required placeholder="What are you building? Timeline, platforms, anything useful."></textarea></div>
+      <button class="btn accent" type="submit" style="justify-content:center">Send message <span class="arr">→</span></button>
+      <p class="note" id="formNote">Or email me directly: nada94086@gmail.com</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">© 2026 Nada Fathy. All rights reserved.</div></footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('spa');
+
+  /* ----- theme ----- */
+  var themeBtn = document.getElementById('theme');
+  function applyTheme(t){
+    if(t === 'dark') root.setAttribute('data-theme','dark'); else root.removeAttribute('data-theme');
+    themeBtn.textContent = t === 'dark' ? '☀' : '☾';
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute('content', t === 'dark' ? '#17181A' : '#FAF8F5');
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem('theme'); }catch(e){}
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
+  themeBtn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('theme', next); }catch(e){}
+  });
+
+  /* ----- router ----- */
+  var views = {
+    '': 'view-home', 'projects':'view-projects', 'about':'view-about',
+    'services':'view-services', 'recognition':'view-recognition',
+    'contact':'view-contact', 'hire':'view-hire'
+  };
+  var links = document.querySelectorAll('nav a[data-route]');
+  var nav = document.getElementById('nav');
+  var burger = document.getElementById('burger');
+  var main = document.getElementById('main');
+  var first = true;
+
+  function route(){
+    var key = (location.hash.replace(/^#\/?/, '') || '').split('?')[0];
+    if(!(key in views)) key = '';
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+    var el = document.getElementById(views[key]);
+    el.classList.add('active');
+    document.title = el.getAttribute('data-title');
+    links.forEach(function(a){
+      if(a.getAttribute('data-route') === key) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+    nav.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
+    if(!first) main.focus({preventScroll:true});
+    first = false;
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  burger.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  /* ----- contact form (opens mail app) ----- */
+  document.getElementById('hireForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    var subject = 'Project inquiry: ' + f.type.value;
+    var body = 'Hi Nada,\n\n' + f.msg.value + '\n\n— ' + f.name.value + '\n' + f.email.value;
+    location.href = 'mailto:nada94086@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    var n = document.getElementById('formNote');
+    n.textContent = 'Opening your email app… if nothing happens, write to nada94086@gmail.com.';
+    n.className = 'note ok';
+  });
+})();
+</script>
+</body>
+</html>
